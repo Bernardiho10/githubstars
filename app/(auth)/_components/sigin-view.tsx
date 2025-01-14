@@ -3,6 +3,13 @@ import Link from 'next/link';
 import UserAuthForm from './user-auth-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Marquee from '@/components/ui/marquee';
+import { reviews } from '@/components/review-card';
+import ReviewCard from '@/components/review-card';
+import ClientTweetCard from '@/components/client-tweet-card';
+
+const firstRow = reviews.slice(0, reviews.length / 2);
+const secondRow = reviews.slice(reviews.length / 2);
 
 export const metadata: Metadata = {
   title: 'Authentication',
@@ -23,29 +30,36 @@ export default function SignInViewPage() {
       </Link>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
         <div className="absolute inset-0 bg-zinc-900" />
-        <div className="relative z-20 flex items-center text-lg font-medium">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-          </svg>
-          Logo
+        <h1 className="relative z-20 mb-4 flex items-center text-lg font-medium">
+          Welcome to Githubstars
+        </h1>
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background p-4 md:shadow-xl">
+          <Marquee pauseOnHover className="[--duration:20s]">
+            {firstRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]">
+            {secondRow.map((review) => (
+              <ReviewCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
         </div>
+
         <div className="relative z-20 mt-auto">
+          <div>
+            <h2 className="text-center text-2xl font-semibold">
+              Top Github Repos by star count
+            </h2>
+            <ClientTweetCard id="1441032681968212480" />
+          </div>
           <blockquote className="space-y-2">
             <p className="text-lg">
-              &ldquo;This library has saved me countless hours of work and
-              helped me deliver stunning designs to my clients faster than ever
-              before.&rdquo;
+              &ldquo;Easily search and star github repositories, follow top
+              users with relevant stars&rdquo;
             </p>
-            <footer className="text-sm">Sofia Davis</footer>
           </blockquote>
         </div>
       </div>
